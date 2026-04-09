@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitor Insights – Feedback</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #f0ede8;
+  min-height: 100vh;
+  padding: 40px 16px 80px;
+  color: #1a1a1a;
+}
+
+.form-wrap { max-width: 700px; margin: 0 auto; }
+
+/* HEADER */
+.form-header {
+  background: #1c2b3a;
+  border-radius: 16px 16px 0 0;
+  padding: 44px;
+  color: #fff;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #7eb8d4;
+  margin-bottom: 12px;
+}
+
+.form-header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.form-header p { font-size: 14px; color: #a8bfcc; }
+
+/* PROGRESS */
+.progress-bar { background: #dde6ec; height: 5px; }
+.progress-fill { background: #7eb8d4; height: 100%; width: 0%; }
+
+/* SECTION */
+.section-block {
+  background: #fff;
+  padding: 30px 40px;
+  margin-top: 2px;
+}
+
+.section-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+/* QUESTIONS */
+.question-block { margin-top: 20px; }
+
+.q-label { margin-bottom: 10px; font-size: 14px; }
+
+.radio-group, .check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-option, .check-option {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #e0e8ed;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e8ed;
+  border-radius: 6px;
+}
+
+/* SUBMIT */
+.submit-block {
+  background: #fff;
+  padding: 30px;
+  text-align: right;
+}
+
+.submit-btn {
+  background: #1c2b3a;
+  color: #fff;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* THANK YOU */
+.thank-you {
+  display: none;
+  background: #fff;
+  padding: 50px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-wrap">
+
+<div class="form-header">
+  <div class="tag">Visitor Insights</div>
+  <h1>Help us improve how we share visitor insights</h1>
+  <p>Your feedback will help us refine how we support your sales activity.</p>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<form id="lf-form">
+
+<div class="section-block">
+<div class="section-title">1. Getting started</div>
+
+<div class="question-block">
+<div class="q-label">Have you received visitor insights recently?</div>
+<div class="radio-group">
+<label class="radio-option"><input type="radio" name="q1" value="yes">Yes</label>
+<label class="radio-option"><input type="radio" name="q1" value="no">No</label>
+</div>
+</div>
+
+<div class="question-block">
+<div class="q-label">How often do you check them?</div>
+<div class="radio-group">
+<label class="radio-option"><input type="radio" name="q2" value="weekly">Weekly</label>
+<label class="radio-option"><input type="radio" name="q2" value="rarely">Rarely</label>
+</div>
+</div>
+
+<div class="question-block">
+<div class="q-label">How do you use them?</div>
+<textarea name="q3"></textarea>
+</div>
+
+</div>
+
+<div class="submit-block">
+<button type="submit" class="submit-btn">Submit</button>
+</div>
+
+</form>
+
+<div class="thank-you" id="thank-you">
+<h2>Thank you!</h2>
+<p>Your feedback has been submitted.</p>
+</div>
+
+</div>
+
+<script>
+const form = document.getElementById('lf-form');
+const progress = document.getElementById('progress');
+
+function updateProgress() {
+  const total = 3;
+  let filled = 0;
+
+  if (document.querySelector('[name="q1"]:checked')) filled++;
+  if (document.querySelector('[name="q2"]:checked')) filled++;
+  if (document.querySelector('[name="q3"]').value.trim()) filled++;
+
+  progress.style.width = (filled / total * 100) + "%";
+}
+
+form.addEventListener('input', updateProgress);
+
+function getFormData() {
+  const data = {};
+  const formData = new FormData(form);
+
+  for (let [key, value] of formData.entries()) {
+    if (data[key]) {
+      if (!Array.isArray(data[key])) data[key] = [data[key]];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  data.timestamp = new Date().toISOString();
+  return data;
+}
+
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const data = getFormData();
+
+  console.log("FORM DATA:", data);
+
+  // 🔴 QUI INSERIREMO URL APPS SCRIPT
+  const endpoint = "";
+
+  if (endpoint) {
+    try {
+      await fetch(endpoint, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  form.style.display = "none";
+  document.getElementById('thank-you').style.display = "block";
+});
+</script>
+
+</body>
+</html>
