@@ -49,7 +49,7 @@ body {
 }
 
 .progress-bar { background: #dde6ec; height: 5px; }
-.progress-fill { background: #7eb8d4; height: 100%; width: 0%; }
+.progress-fill { background: #7eb8d4; height: 100%; width: 0%; transition: width 0.3s ease; }
 
 .section-block {
   background: #fff;
@@ -66,7 +66,11 @@ body {
 
 .question-block { margin-top: 20px; }
 
-.q-label { margin-bottom: 10px; font-size: 14px; }
+.q-label {
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
 
 .radio-group, .check-group {
   display: flex;
@@ -81,6 +85,7 @@ body {
   border: 1px solid #e0e8ed;
   border-radius: 6px;
   cursor: pointer;
+  align-items: flex-start;
 }
 
 textarea {
@@ -89,6 +94,8 @@ textarea {
   border: 1px solid #e0e8ed;
   border-radius: 6px;
   min-height: 80px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
 }
 
 .submit-block {
@@ -104,6 +111,13 @@ textarea {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .thank-you {
@@ -112,6 +126,27 @@ textarea {
   padding: 50px;
   text-align: center;
 }
+
+.status-message {
+  display: none;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #b00020;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .form-header,
+  .section-block,
+  .submit-block,
+  .thank-you {
+    padding: 24px 20px;
+  }
+
+  .form-header h1 {
+    font-size: 24px;
+  }
+}
 </style>
 </head>
 
@@ -119,207 +154,257 @@ textarea {
 
 <div class="form-wrap">
 
-<div class="form-header">
-  <div class="tag">Visitor Insights</div>
-  <h1>Help us improve how we share visitor insights</h1>
-  <p>Your feedback will help us better understand how these insights are used in your sales activity, what works, and what could be improved.</p>
-</div>
+  <div class="form-header">
+    <div class="tag">Visitor Insights</div>
+    <h1>Help us improve how we share visitor insights</h1>
+    <p>Your feedback will help us better understand how these insights are used in your sales activity, what works, and what could be improved.</p>
+  </div>
 
-<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
 
-<form id="lf-form">
+  <form id="lf-form">
 
-<!-- SECTION 1 -->
-<div class="section-block">
-<div class="section-title">1. Starting point</div>
+    <div class="section-block">
+      <div class="section-title">1. Starting point</div>
 
-<div class="question-block">
-<div class="q-label">Have you received visitor insights in the past months?</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q1" value="yes">Yes</label>
-<label class="radio-option"><input type="radio" name="q1" value="no">No</label>
-<label class="radio-option"><input type="radio" name="q1" value="not_sure">Not sure</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Have you received visitor insights in the past months?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q1" value="yes">Yes</label>
+          <label class="radio-option"><input type="radio" name="q1" value="no">No</label>
+          <label class="radio-option"><input type="radio" name="q1" value="not_sure">Not sure</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">How often do you check them?</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q2" value="weekly">Weekly</label>
-<label class="radio-option"><input type="radio" name="q2" value="monthly">Occasionally</label>
-<label class="radio-option"><input type="radio" name="q2" value="rarely">Rarely</label>
-<label class="radio-option"><input type="radio" name="q2" value="never">Never</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">How often do you check them?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q2" value="weekly">Weekly</label>
+          <label class="radio-option"><input type="radio" name="q2" value="monthly">Occasionally</label>
+          <label class="radio-option"><input type="radio" name="q2" value="rarely">Rarely</label>
+          <label class="radio-option"><input type="radio" name="q2" value="never">Never</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">How do you use these insights in your activity? (also “I don’t use them” is a valid answer)</div>
-<textarea name="q3"></textarea>
-</div>
+      <div class="question-block">
+        <div class="q-label">How do you use these insights in your activity? (also “I don’t use them” is a valid answer)</div>
+        <textarea name="q3"></textarea>
+      </div>
 
-<div class="question-block">
-<div class="q-label">Do you have a defined process to handle them?</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q4" value="process">Yes, structured process</label>
-<label class="radio-option"><input type="radio" name="q4" value="case_by_case">Case by case</label>
-<label class="radio-option"><input type="radio" name="q4" value="not_used">I don’t handle them</label>
-</div>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Do you have a defined process to handle them?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q4" value="process">Yes, structured process</label>
+          <label class="radio-option"><input type="radio" name="q4" value="case_by_case">Case by case</label>
+          <label class="radio-option"><input type="radio" name="q4" value="not_used">I don’t handle them</label>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 2 -->
-<div class="section-block">
-<div class="section-title">2. What works (and what doesn’t)</div>
+    <div class="section-block">
+      <div class="section-title">2. What works (and what doesn’t)</div>
 
-<div class="question-block">
-<div class="q-label">When you receive an insight, what is your first reaction?</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q5" value="open">I open it immediately</label>
-<label class="radio-option"><input type="radio" name="q5" value="later">I leave it for later</label>
-<label class="radio-option"><input type="radio" name="q5" value="unclear">Not sure what to do with it</label>
-<label class="radio-option"><input type="radio" name="q5" value="ignore">I usually ignore it</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">When you receive an insight, what is your first reaction?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q5" value="open">I open it immediately</label>
+          <label class="radio-option"><input type="radio" name="q5" value="later">I leave it for later</label>
+          <label class="radio-option"><input type="radio" name="q5" value="unclear">Not sure what to do with it</label>
+          <label class="radio-option"><input type="radio" name="q5" value="ignore">I usually ignore it</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">Is there anything you find particularly useful in these insights?</div>
-<textarea name="q6"></textarea>
-</div>
+      <div class="question-block">
+        <div class="q-label">Is there anything you find particularly useful in these insights?</div>
+        <textarea name="q6"></textarea>
+      </div>
 
-<div class="question-block">
-<div class="q-label">What makes them difficult to use? (multiple choice)</div>
-<div class="check-group">
-<label class="check-option"><input type="checkbox" name="q7" value="lack_info">Not enough information</label>
-<label class="check-option"><input type="checkbox" name="q7" value="timing">Wrong timing</label>
-<label class="check-option"><input type="checkbox" name="q7" value="contacts">Hard to find contacts</label>
-<label class="check-option"><input type="checkbox" name="q7" value="process">Not integrated in workflow</label>
-<label class="check-option"><input type="checkbox" name="q7" value="time">Lack of time</label>
-<label class="check-option"><input type="checkbox" name="q7" value="knowledge">Not sure how to use them</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">What makes them difficult to use? (multiple choice)</div>
+        <div class="check-group">
+          <label class="check-option"><input type="checkbox" name="q7" value="lack_info">Not enough information</label>
+          <label class="check-option"><input type="checkbox" name="q7" value="timing">Wrong timing</label>
+          <label class="check-option"><input type="checkbox" name="q7" value="contacts">Hard to find contacts</label>
+          <label class="check-option"><input type="checkbox" name="q7" value="process">Not integrated in workflow</label>
+          <label class="check-option"><input type="checkbox" name="q7" value="time">Lack of time</label>
+          <label class="check-option"><input type="checkbox" name="q7" value="knowledge">Not sure how to use them</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">Have you ever felt an insight was “noise” rather than a real opportunity?</div>
-<textarea name="q8"></textarea>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Have you ever felt an insight was “noise” rather than a real opportunity?</div>
+        <textarea name="q8"></textarea>
+      </div>
+    </div>
 
-<!-- SECTION 3 -->
-<div class="section-block">
-<div class="section-title">3. Real outcomes</div>
+    <div class="section-block">
+      <div class="section-title">3. Real outcomes</div>
 
-<div class="question-block">
-<div class="q-label">Have you ever generated a contact or opportunity from these insights?</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q9" value="multiple">Yes, multiple times</label>
-<label class="radio-option"><input type="radio" name="q9" value="once">Yes, once</label>
-<label class="radio-option"><input type="radio" name="q9" value="no">No</label>
-<label class="radio-option"><input type="radio" name="q9" value="unknown">Not sure</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Have you ever generated a contact or opportunity from these insights?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q9" value="multiple">Yes, multiple times</label>
+          <label class="radio-option"><input type="radio" name="q9" value="once">Yes, once</label>
+          <label class="radio-option"><input type="radio" name="q9" value="no">No</label>
+          <label class="radio-option"><input type="radio" name="q9" value="unknown">Not sure</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">If yes, what was the outcome?</div>
-<textarea name="q10"></textarea>
-</div>
+      <div class="question-block">
+        <div class="q-label">If yes, what was the outcome?</div>
+        <textarea name="q10"></textarea>
+      </div>
 
-<div class="question-block">
-<div class="q-label">Have you used them to prepare better for a meeting or call?</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q11" value="useful">Yes, useful</label>
-<label class="radio-option"><input type="radio" name="q11" value="limited">Tried, limited impact</label>
-<label class="radio-option"><input type="radio" name="q11" value="no">No</label>
-</div>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Have you used them to prepare better for a meeting or call?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q11" value="useful">Yes, useful</label>
+          <label class="radio-option"><input type="radio" name="q11" value="limited">Tried, limited impact</label>
+          <label class="radio-option"><input type="radio" name="q11" value="no">No</label>
+        </div>
+      </div>
+    </div>
 
-<!-- SECTION 4 -->
-<div class="section-block">
-<div class="section-title">4. What is missing</div>
+    <div class="section-block">
+      <div class="section-title">4. What is missing</div>
 
-<div class="question-block">
-<div class="q-label">How would you prefer to receive insights?</div>
-<div class="check-group">
-<label class="check-option"><input type="checkbox" name="q12" value="weekly">Weekly summary</label>
-<label class="check-option"><input type="checkbox" name="q12" value="alerts">Real-time alerts</label>
-<label class="check-option"><input type="checkbox" name="q12" value="crm">Integrated in CRM</label>
-<label class="check-option"><input type="checkbox" name="q12" value="review">Monthly review call</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">How would you prefer to receive insights?</div>
+        <div class="check-group">
+          <label class="check-option"><input type="checkbox" name="q12" value="weekly">Weekly summary</label>
+          <label class="check-option"><input type="checkbox" name="q12" value="alerts">Real-time alerts</label>
+          <label class="check-option"><input type="checkbox" name="q12" value="crm">Integrated in CRM</label>
+          <label class="check-option"><input type="checkbox" name="q12" value="review">Monthly review call</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">What type of companies or signals would be more useful?</div>
-<textarea name="q13"></textarea>
-</div>
+      <div class="question-block">
+        <div class="q-label">What type of companies or signals would be more useful?</div>
+        <textarea name="q13"></textarea>
+      </div>
 
-<div class="question-block">
-<div class="q-label">Do you need more guidance or is it mainly an operational issue?</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q14" value="training">More guidance</label>
-<label class="radio-option"><input type="radio" name="q14" value="operational">Operational issue</label>
-<label class="radio-option"><input type="radio" name="q14" value="both">Both</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Do you need more guidance or is it mainly an operational issue?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q14" value="training">More guidance</label>
+          <label class="radio-option"><input type="radio" name="q14" value="operational">Operational issue</label>
+          <label class="radio-option"><input type="radio" name="q14" value="both">Both</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">What could we do to make these insights easier to use?</div>
-<textarea name="q15"></textarea>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">What could we do to make these insights easier to use?</div>
+        <textarea name="q15"></textarea>
+      </div>
+    </div>
 
-<!-- SECTION 5 -->
-<div class="section-block">
-<div class="section-title">5. Your view</div>
+    <div class="section-block">
+      <div class="section-title">5. Your view</div>
 
-<div class="question-block">
-<div class="q-label">Overall, these insights are:</div>
-<div class="radio-group">
-<label class="radio-option"><input type="radio" name="q16" value="potential">Valuable but underused</label>
-<label class="radio-option"><input type="radio" name="q16" value="mixed">Sometimes useful</label>
-<label class="radio-option"><input type="radio" name="q16" value="low">Not useful</label>
-<label class="radio-option"><input type="radio" name="q16" value="unknown">Not familiar</label>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Overall, these insights are:</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q16" value="potential">Valuable but underused</label>
+          <label class="radio-option"><input type="radio" name="q16" value="mixed">Sometimes useful</label>
+          <label class="radio-option"><input type="radio" name="q16" value="low">Not useful</label>
+          <label class="radio-option"><input type="radio" name="q16" value="unknown">Not familiar</label>
+        </div>
+      </div>
 
-<div class="question-block">
-<div class="q-label">Any additional feedback?</div>
-<textarea name="q17"></textarea>
-</div>
-</div>
+      <div class="question-block">
+        <div class="q-label">Any additional feedback?</div>
+        <textarea name="q17"></textarea>
+      </div>
+    </div>
 
-<div class="submit-block">
-<button type="submit" class="submit-btn">Submit</button>
-</div>
+    <div class="submit-block">
+      <button type="submit" class="submit-btn" id="submit-btn">Submit</button>
+      <div class="status-message" id="status-message">Submission failed. Please try again.</div>
+    </div>
 
-</form>
+  </form>
 
-<div class="thank-you" id="thank-you">
-<h2>Thank you!</h2>
-<p>Your feedback will help us improve the process.</p>
-</div>
+  <div class="thank-you" id="thank-you">
+    <h2>Thank you!</h2>
+    <p>Your feedback will help us improve the process.</p>
+  </div>
 
 </div>
 
 <script>
 const form = document.getElementById('lf-form');
 const progress = document.getElementById('progress');
+const thankYou = document.getElementById('thank-you');
+const submitBtn = document.getElementById('submit-btn');
+const statusMessage = document.getElementById('status-message');
 const TOTAL = 17;
 
 function updateProgress() {
   const answered = new Set();
-  document.querySelectorAll('input:checked').forEach(i => answered.add(i.name));
-  document.querySelectorAll('textarea').forEach(t => {
+  document.querySelectorAll('#lf-form input:checked').forEach(i => answered.add(i.name));
+  document.querySelectorAll('#lf-form textarea').forEach(t => {
     if (t.value.trim().length > 2) answered.add(t.name);
   });
-  progress.style.width = (answered.size / TOTAL * 100) + "%";
+  progress.style.width = Math.min(100, (answered.size / TOTAL) * 100) + "%";
 }
 
 form.addEventListener('input', updateProgress);
+form.addEventListener('change', updateProgress);
 
-form.addEventListener('submit', function(e) {
+function getFormData() {
+  const data = {};
+  const formData = new FormData(form);
+
+  for (const [key, value] of formData.entries()) {
+    if (data[key]) {
+      if (!Array.isArray(data[key])) data[key] = [data[key]];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  data.submitted_at = new Date().toISOString();
+  return data;
+}
+
+form.addEventListener('submit', async function(e) {
   e.preventDefault();
-  form.style.display = "none";
-  document.getElementById('thank-you').style.display = "block";
+
+  statusMessage.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
+
+  const data = getFormData();
+
+  const endpoint = 'https://script.google.com/macros/s/AKfycbwBDG3wFnSraPDzKiheU6JQl4w0I10Ka812cOmld34U7hnHwhHzVWhEdWZbsk_XKyQBaw/exec';
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      }
+    });
+
+    const result = await response.json();
+
+    if (result.result === 'success') {
+      form.style.display = 'none';
+      thankYou.style.display = 'block';
+      progress.style.width = '100%';
+    } else {
+      statusMessage.style.display = 'block';
+      console.error(result);
+    }
+  } catch (err) {
+    statusMessage.style.display = 'block';
+    console.error(err);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit';
+  }
 });
 </script>
 
