@@ -163,6 +163,7 @@ textarea {
   <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
 
   <form id="lf-form">
+    <input type="hidden" name="source" value="live_batch_1">
 
     <div class="section-block">
       <div class="section-title">1. Starting point</div>
@@ -377,7 +378,7 @@ form.addEventListener('submit', async function(e) {
 
   const data = getFormData();
 
-  const endpoint = 'https://script.google.com/macros/s/AKfycbzRqwOQXERsY9C4Jg-JoLQEzk_xufs7Ndd17fVaqRXRgfG4Xrk4zMNyMAM33qylXkPzww/exec';
+  const endpoint = 'https://script.google.com/macros/s/AKfycbxTdpSIFCUkQ48KOGTbknUTvH9ZXqztrj93hPN07ebxGWp15ZiCCGUQ30EQmdYVe9uG4A/exec';
 
   try {
     const response = await fetch(endpoint, {
