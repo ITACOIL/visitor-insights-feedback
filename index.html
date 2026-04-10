@@ -88,14 +88,24 @@ body {
   align-items: flex-start;
 }
 
-textarea {
+textarea,
+input[type="text"] {
   width: 100%;
   padding: 10px;
   border: 1px solid #e0e8ed;
   border-radius: 6px;
-  min-height: 80px;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
+  background: #fff;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.text-input {
+  min-height: 44px;
 }
 
 .submit-block {
@@ -163,7 +173,25 @@ textarea {
   <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
 
   <form id="lf-form">
-    <input type="hidden" name="source" value="live_batch_1">
+
+    <div class="section-block">
+      <div class="section-title">Your details</div>
+
+      <div class="question-block">
+        <div class="q-label">First name</div>
+        <input type="text" name="first_name" class="text-input">
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">Last name</div>
+        <input type="text" name="last_name" class="text-input">
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">Company name</div>
+        <input type="text" name="company_name" class="text-input">
+      </div>
+    </div>
 
     <div class="section-block">
       <div class="section-title">1. Starting point</div>
@@ -338,14 +366,22 @@ const progress = document.getElementById('progress');
 const thankYou = document.getElementById('thank-you');
 const submitBtn = document.getElementById('submit-btn');
 const statusMessage = document.getElementById('status-message');
-const TOTAL = 17;
+const TOTAL = 20;
 
 function updateProgress() {
   const answered = new Set();
-  document.querySelectorAll('#lf-form input:checked').forEach(i => answered.add(i.name));
+
+  document.querySelectorAll('#lf-form input[type="radio"]:checked').forEach(i => answered.add(i.name));
+  document.querySelectorAll('#lf-form input[type="checkbox"]:checked').forEach(i => answered.add(i.name));
+
   document.querySelectorAll('#lf-form textarea').forEach(t => {
     if (t.value.trim().length > 2) answered.add(t.name);
   });
+
+  document.querySelectorAll('#lf-form input[type="text"]').forEach(t => {
+    if (t.value.trim().length > 0) answered.add(t.name);
+  });
+
   progress.style.width = Math.min(100, (answered.size / TOTAL) * 100) + "%";
 }
 
@@ -378,7 +414,7 @@ form.addEventListener('submit', async function(e) {
 
   const data = getFormData();
 
-  const endpoint = 'https://script.google.com/macros/s/AKfycbxTdpSIFCUkQ48KOGTbknUTvH9ZXqztrj93hPN07ebxGWp15ZiCCGUQ30EQmdYVe9uG4A/exec';
+  const endpoint = 'https://script.google.com/macros/s/AKfycbxW7XWM36-eXMD3Ju8YuEsG4zA1OzBDt0XGIAYh93tMCcGscJqqfM2j-hjtGwc0ADJzDQ/exec';
 
   try {
     const response = await fetch(endpoint, {
