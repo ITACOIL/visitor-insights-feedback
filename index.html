@@ -72,6 +72,13 @@ body {
   line-height: 1.5;
 }
 
+.q-hint {
+  font-size: 12px;
+  color: #6b7c87;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
 .radio-group, .check-group {
   display: flex;
   flex-direction: column;
@@ -86,6 +93,48 @@ body {
   border-radius: 6px;
   cursor: pointer;
   align-items: flex-start;
+}
+
+.nps-scale {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.nps-option {
+  flex: 1 1 auto;
+  min-width: 48px;
+  text-align: center;
+  padding: 10px 4px;
+  border: 1px solid #e0e8ed;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  background: #fff;
+}
+
+.nps-option input {
+  display: none;
+}
+
+.nps-option input:checked + span {
+  font-weight: 600;
+  color: #1c2b3a;
+}
+
+.nps-option:has(input:checked) {
+  border-color: #7eb8d4;
+  background: #f0f6fa;
+}
+
+.nps-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #6b7c87;
+  margin-top: 6px;
+  padding: 0 4px;
 }
 
 textarea,
@@ -106,6 +155,18 @@ textarea {
 
 .text-input {
   min-height: 44px;
+}
+
+.q-subfield {
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid #e0e8ed;
+}
+
+.q-subfield-label {
+  font-size: 12px;
+  color: #6b7c87;
+  margin-bottom: 6px;
 }
 
 .submit-block {
@@ -156,6 +217,12 @@ textarea {
   .form-header h1 {
     font-size: 24px;
   }
+
+  .nps-option {
+    min-width: 36px;
+    padding: 8px 2px;
+    font-size: 12px;
+  }
 }
 </style>
 </head>
@@ -199,70 +266,111 @@ textarea {
       <div class="question-block">
         <div class="q-label">Have you received visitor insights in the past months?</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q1" value="yes">Yes</label>
-          <label class="radio-option"><input type="radio" name="q1" value="no">No</label>
-          <label class="radio-option"><input type="radio" name="q1" value="not_sure">Not sure</label>
+          <label class="radio-option"><input type="radio" name="q01_received_insights" value="yes">Yes</label>
+          <label class="radio-option"><input type="radio" name="q01_received_insights" value="no">No</label>
+          <label class="radio-option"><input type="radio" name="q01_received_insights" value="not_sure">Not sure</label>
         </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">How often do you check them?</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q2" value="weekly">Weekly</label>
-          <label class="radio-option"><input type="radio" name="q2" value="monthly">Occasionally</label>
-          <label class="radio-option"><input type="radio" name="q2" value="rarely">Rarely</label>
-          <label class="radio-option"><input type="radio" name="q2" value="never">Never</label>
+          <label class="radio-option"><input type="radio" name="q02_check_frequency" value="weekly">Weekly</label>
+          <label class="radio-option"><input type="radio" name="q02_check_frequency" value="occasionally">Occasionally</label>
+          <label class="radio-option"><input type="radio" name="q02_check_frequency" value="rarely">Rarely</label>
+          <label class="radio-option"><input type="radio" name="q02_check_frequency" value="never">Never</label>
         </div>
       </div>
 
       <div class="question-block">
-        <div class="q-label">How do you use these insights in your activity? (also “I don’t use them” is a valid answer)</div>
-        <textarea name="q3"></textarea>
+        <div class="q-label">How do you use these insights in your activity?</div>
+        <div class="q-hint">Select all that apply</div>
+        <div class="check-group">
+          <label class="check-option"><input type="checkbox" name="q03_how_use_insights" value="open_no_action">I open the insight document but rarely take action</label>
+          <label class="check-option"><input type="checkbox" name="q03_how_use_insights" value="check_pipeline">I check if the company is already in my pipeline</label>
+          <label class="check-option"><input type="checkbox" name="q03_how_use_insights" value="prioritize_outreach">I prioritize specific companies for outreach based on the signals</label>
+          <label class="check-option"><input type="checkbox" name="q03_how_use_insights" value="prep_meetings">I use them to prepare for meetings or calls with existing customers</label>
+          <label class="check-option"><input type="checkbox" name="q03_how_use_insights" value="share_team">I share them with other team members</label>
+          <label class="check-option"><input type="checkbox" name="q03_how_use_insights" value="dont_use">I don't really use them</label>
+          <label class="check-option"><input type="checkbox" name="q03_how_use_insights" value="other">Other (specify below)</label>
+        </div>
+        <div class="q-subfield">
+          <div class="q-subfield-label">If "Other", please specify:</div>
+          <input type="text" name="q03_other" class="text-input">
+        </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">Do you have a defined process to handle them?</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q4" value="process">Yes, structured process</label>
-          <label class="radio-option"><input type="radio" name="q4" value="case_by_case">Case by case</label>
-          <label class="radio-option"><input type="radio" name="q4" value="not_used">I don’t handle them</label>
+          <label class="radio-option"><input type="radio" name="q04_defined_process" value="structured">Yes, structured process</label>
+          <label class="radio-option"><input type="radio" name="q04_defined_process" value="case_by_case">Case by case</label>
+          <label class="radio-option"><input type="radio" name="q04_defined_process" value="no_process">I don't handle them</label>
         </div>
       </div>
     </div>
 
     <div class="section-block">
-      <div class="section-title">2. What works (and what doesn’t)</div>
+      <div class="section-title">2. What works (and what doesn't)</div>
 
       <div class="question-block">
         <div class="q-label">When you receive an insight, what is your first reaction?</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q5" value="open">I open it immediately</label>
-          <label class="radio-option"><input type="radio" name="q5" value="later">I leave it for later</label>
-          <label class="radio-option"><input type="radio" name="q5" value="unclear">Not sure what to do with it</label>
-          <label class="radio-option"><input type="radio" name="q5" value="ignore">I usually ignore it</label>
+          <label class="radio-option"><input type="radio" name="q05_first_reaction" value="open_immediately">I open it immediately</label>
+          <label class="radio-option"><input type="radio" name="q05_first_reaction" value="later">I leave it for later</label>
+          <label class="radio-option"><input type="radio" name="q05_first_reaction" value="unclear">Not sure what to do with it</label>
+          <label class="radio-option"><input type="radio" name="q05_first_reaction" value="ignore">I usually ignore it</label>
         </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">Is there anything you find particularly useful in these insights?</div>
-        <textarea name="q6"></textarea>
+        <textarea name="q06_anything_useful"></textarea>
       </div>
 
       <div class="question-block">
-        <div class="q-label">What makes them difficult to use? (multiple choice)</div>
+        <div class="q-label">Among the types of insights we share, which do you find most useful?</div>
+        <div class="q-hint">Select up to 3 that apply</div>
         <div class="check-group">
-          <label class="check-option"><input type="checkbox" name="q7" value="lack_info">Not enough information</label>
-          <label class="check-option"><input type="checkbox" name="q7" value="timing">Wrong timing</label>
-          <label class="check-option"><input type="checkbox" name="q7" value="contacts">Hard to find contacts</label>
-          <label class="check-option"><input type="checkbox" name="q7" value="process">Not integrated in workflow</label>
-          <label class="check-option"><input type="checkbox" name="q7" value="time">Lack of time</label>
-          <label class="check-option"><input type="checkbox" name="q7" value="knowledge">Not sure how to use them</label>
+          <label class="check-option"><input type="checkbox" name="q07_most_useful_types" value="new_prospects">New prospect signals (companies never contacted before)</label>
+          <label class="check-option"><input type="checkbox" name="q07_most_useful_types" value="existing_customer_engagement">Existing customer engagement signals (signs of new BOM or project)</label>
+          <label class="check-option"><input type="checkbox" name="q07_most_useful_types" value="dormant_reactivation">Dormant customer reactivation signals</label>
+          <label class="check-option"><input type="checkbox" name="q07_most_useful_types" value="competitor_intel">Competitor visits / market intelligence</label>
+          <label class="check-option"><input type="checkbox" name="q07_most_useful_types" value="marketing_insights">Marketing/strategic insights (CPC patterns, trending codes, market trends)</label>
+          <label class="check-option"><input type="checkbox" name="q07_most_useful_types" value="no_clear_difference">I don't see a clear difference between the types</label>
         </div>
       </div>
 
       <div class="question-block">
-        <div class="q-label">Have you ever felt an insight was “noise” rather than a real opportunity?</div>
-        <textarea name="q8"></textarea>
+        <div class="q-label">When you decide to act on an insight, how long does it typically take you to make the first contact attempt?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q08_time_to_first_action" value="same_day">Same day</label>
+          <label class="radio-option"><input type="radio" name="q08_time_to_first_action" value="within_week">Within a week</label>
+          <label class="radio-option"><input type="radio" name="q08_time_to_first_action" value="within_month">Within a month</label>
+          <label class="radio-option"><input type="radio" name="q08_time_to_first_action" value="longer">Longer than a month</label>
+          <label class="radio-option"><input type="radio" name="q08_time_to_first_action" value="varies">It varies a lot</label>
+          <label class="radio-option"><input type="radio" name="q08_time_to_first_action" value="not_acted">I haven't acted on any insight yet</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">What makes them difficult to use?</div>
+        <div class="q-hint">Select all that apply</div>
+        <div class="check-group">
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="lack_info">Not enough information</label>
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="timing">Wrong timing</label>
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="contacts">Hard to find contacts at the company</label>
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="workflow">Not integrated in my workflow</label>
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="time">Lack of time</label>
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="knowledge">Not sure how to use them</label>
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="reliability_doubts">I'm not sure how reliable the qualification is</label>
+          <label class="check-option"><input type="checkbox" name="q09_difficulties" value="already_in_pipeline">The companies are often already in my pipeline</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">Have you ever felt an insight was "noise" rather than a real opportunity? If so, please share what happened.</div>
+        <textarea name="q10_noise_feedback"></textarea>
       </div>
     </div>
 
@@ -272,24 +380,24 @@ textarea {
       <div class="question-block">
         <div class="q-label">Have you ever generated a contact or opportunity from these insights?</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q9" value="multiple">Yes, multiple times</label>
-          <label class="radio-option"><input type="radio" name="q9" value="once">Yes, once</label>
-          <label class="radio-option"><input type="radio" name="q9" value="no">No</label>
-          <label class="radio-option"><input type="radio" name="q9" value="unknown">Not sure</label>
+          <label class="radio-option"><input type="radio" name="q11_generated_opportunity" value="multiple">Yes, multiple times</label>
+          <label class="radio-option"><input type="radio" name="q11_generated_opportunity" value="once">Yes, once</label>
+          <label class="radio-option"><input type="radio" name="q11_generated_opportunity" value="no">No</label>
+          <label class="radio-option"><input type="radio" name="q11_generated_opportunity" value="not_sure">Not sure</label>
         </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">If yes, what was the outcome?</div>
-        <textarea name="q10"></textarea>
+        <textarea name="q12_outcome_details"></textarea>
       </div>
 
       <div class="question-block">
         <div class="q-label">Have you used them to prepare better for a meeting or call?</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q11" value="useful">Yes, useful</label>
-          <label class="radio-option"><input type="radio" name="q11" value="limited">Tried, limited impact</label>
-          <label class="radio-option"><input type="radio" name="q11" value="no">No</label>
+          <label class="radio-option"><input type="radio" name="q13_used_for_meeting" value="useful">Yes, useful</label>
+          <label class="radio-option"><input type="radio" name="q13_used_for_meeting" value="limited">Tried, limited impact</label>
+          <label class="radio-option"><input type="radio" name="q13_used_for_meeting" value="no">No</label>
         </div>
       </div>
     </div>
@@ -299,31 +407,55 @@ textarea {
 
       <div class="question-block">
         <div class="q-label">How would you prefer to receive insights?</div>
+        <div class="q-hint">Select all that apply</div>
         <div class="check-group">
-          <label class="check-option"><input type="checkbox" name="q12" value="weekly">Weekly summary</label>
-          <label class="check-option"><input type="checkbox" name="q12" value="alerts">Real-time alerts</label>
-          <label class="check-option"><input type="checkbox" name="q12" value="crm">Integrated in CRM</label>
-          <label class="check-option"><input type="checkbox" name="q12" value="review">Monthly review call</label>
+          <label class="check-option"><input type="checkbox" name="q14_preferred_format" value="weekly">Weekly summary</label>
+          <label class="check-option"><input type="checkbox" name="q14_preferred_format" value="alerts">Real-time alerts</label>
+          <label class="check-option"><input type="checkbox" name="q14_preferred_format" value="crm">Integrated in CRM</label>
+          <label class="check-option"><input type="checkbox" name="q14_preferred_format" value="review">Monthly review call</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">In which language do you prefer to receive insights and communications from Itacoil?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q15_preferred_language" value="english">English</label>
+          <label class="radio-option"><input type="radio" name="q15_preferred_language" value="italian">Italian</label>
+          <label class="radio-option"><input type="radio" name="q15_preferred_language" value="german">German</label>
+          <label class="radio-option"><input type="radio" name="q15_preferred_language" value="french">French</label>
+          <label class="radio-option"><input type="radio" name="q15_preferred_language" value="spanish">Spanish</label>
+          <label class="radio-option"><input type="radio" name="q15_preferred_language" value="no_preference">No preference</label>
         </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">What type of companies or signals would be more useful?</div>
-        <textarea name="q13"></textarea>
+        <textarea name="q16_useful_signals"></textarea>
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">Itacoil would benefit from receiving feedback from you on the outcomes of the insights we share (e.g., contacted/not contacted, opportunity generated/no interest). Which level of feedback is realistic for you to provide?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q17_feedback_level" value="detailed_each">Detailed feedback for each insight (status, outcome, notes)</label>
+          <label class="radio-option"><input type="radio" name="q17_feedback_level" value="aggregated">Aggregated feedback monthly/quarterly (overall trends)</label>
+          <label class="radio-option"><input type="radio" name="q17_feedback_level" value="significant_only">Only when significant outcomes emerge (RFQ, order, closed deal)</label>
+          <label class="radio-option"><input type="radio" name="q17_feedback_level" value="cannot_systematically">I don't think I can systematically provide feedback</label>
+          <label class="radio-option"><input type="radio" name="q17_feedback_level" value="open_discuss">I'd be open to discussing the best format</label>
+        </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">Do you need more guidance or is it mainly an operational issue?</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q14" value="training">More guidance</label>
-          <label class="radio-option"><input type="radio" name="q14" value="operational">Operational issue</label>
-          <label class="radio-option"><input type="radio" name="q14" value="both">Both</label>
+          <label class="radio-option"><input type="radio" name="q18_guidance_vs_operational" value="guidance">More guidance</label>
+          <label class="radio-option"><input type="radio" name="q18_guidance_vs_operational" value="operational">Operational issue</label>
+          <label class="radio-option"><input type="radio" name="q18_guidance_vs_operational" value="both">Both</label>
         </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">What could we do to make these insights easier to use?</div>
-        <textarea name="q15"></textarea>
+        <textarea name="q19_easier_to_use"></textarea>
       </div>
     </div>
 
@@ -333,16 +465,46 @@ textarea {
       <div class="question-block">
         <div class="q-label">Overall, these insights are:</div>
         <div class="radio-group">
-          <label class="radio-option"><input type="radio" name="q16" value="potential">Valuable but underused</label>
-          <label class="radio-option"><input type="radio" name="q16" value="mixed">Sometimes useful</label>
-          <label class="radio-option"><input type="radio" name="q16" value="low">Not useful</label>
-          <label class="radio-option"><input type="radio" name="q16" value="unknown">Not familiar</label>
+          <label class="radio-option"><input type="radio" name="q20_overall_value" value="valuable_underused">Valuable but underused</label>
+          <label class="radio-option"><input type="radio" name="q20_overall_value" value="sometimes_useful">Sometimes useful</label>
+          <label class="radio-option"><input type="radio" name="q20_overall_value" value="not_useful">Not useful</label>
+          <label class="radio-option"><input type="radio" name="q20_overall_value" value="not_familiar">Not familiar</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">If we stopped sharing these insights tomorrow, what would be the impact on your sales activity?</div>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="q21_impact_if_stopped" value="significant">Significant — I rely on them</label>
+          <label class="radio-option"><input type="radio" name="q21_impact_if_stopped" value="moderate">Moderate — useful but not critical</label>
+          <label class="radio-option"><input type="radio" name="q21_impact_if_stopped" value="minimal">Minimal — they're a nice extra but I can do without</label>
+          <label class="radio-option"><input type="radio" name="q21_impact_if_stopped" value="none">None — I don't really use them</label>
+        </div>
+      </div>
+
+      <div class="question-block">
+        <div class="q-label">On a scale of 1 to 10, how likely are you to recommend this insight-sharing approach to a colleague in a similar position?</div>
+        <div class="nps-scale">
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="1"><span>1</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="2"><span>2</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="3"><span>3</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="4"><span>4</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="5"><span>5</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="6"><span>6</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="7"><span>7</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="8"><span>8</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="9"><span>9</span></label>
+          <label class="nps-option"><input type="radio" name="q22_recommendation_nps" value="10"><span>10</span></label>
+        </div>
+        <div class="nps-labels">
+          <span>1 — Not at all likely</span>
+          <span>10 — Extremely likely</span>
         </div>
       </div>
 
       <div class="question-block">
         <div class="q-label">Any additional feedback?</div>
-        <textarea name="q17"></textarea>
+        <textarea name="q23_additional_feedback"></textarea>
       </div>
     </div>
 
@@ -366,7 +528,7 @@ const progress = document.getElementById('progress');
 const thankYou = document.getElementById('thank-you');
 const submitBtn = document.getElementById('submit-btn');
 const statusMessage = document.getElementById('status-message');
-const TOTAL = 20;
+const TOTAL = 23;
 
 function updateProgress() {
   const answered = new Set();
@@ -381,6 +543,9 @@ function updateProgress() {
   document.querySelectorAll('#lf-form input[type="text"]').forEach(t => {
     if (t.value.trim().length > 0) answered.add(t.name);
   });
+
+  // Exclude q03_other from progress count (it's a sub-field of q03)
+  answered.delete('q03_other');
 
   progress.style.width = Math.min(100, (answered.size / TOTAL) * 100) + "%";
 }
